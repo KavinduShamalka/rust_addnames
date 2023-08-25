@@ -15,7 +15,7 @@ fn main(){
         input = input.trim().to_string();
 
         checknumber(&input); //Checknum
-        
+
 
         if input == "q" { //if user enter 'q'
             println!("");
@@ -43,7 +43,7 @@ fn addname(input: String, name_vec: &mut Vec<String>){
     loop {
         match input.trim() {
             "s" => {
-                println!("Enter name {} | Enter 'n' to stop add | Enter 'v' view name list" );
+                println!("Enter name | Enter 'n' to stop add | Enter 'v' view name list | Enter 'd' to delete name");
                 let mut names = String::new();
                 io::stdin()
                     .read_line(&mut names)
@@ -60,6 +60,11 @@ fn addname(input: String, name_vec: &mut Vec<String>){
 
                 if names == "v" {
                     viewlist(name_vec);
+                    continue;
+                }
+
+                if names == "d" {
+                    deletename(name_vec);
                     continue;
                 }
 
@@ -94,4 +99,21 @@ fn viewlist(name_vec: &mut Vec<String>){
     }
 
     println!("")
+}
+
+fn deletename(name_vec: &mut Vec<String>) {
+    println!("Enter name: ");
+    let mut names = String::new();
+    io::stdin()
+        .read_line(&mut names)
+        .expect("Failed to read name");
+    let trimmed_name = names.trim().to_string();
+
+    if let Some(index) = name_vec.iter().position(|name| name == &trimmed_name) {
+        name_vec.remove(index);
+        println!("Name removed successfully.");
+    } else {
+        println!("Name not found in the list.");
+    }
+
 }
