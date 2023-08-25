@@ -102,18 +102,29 @@ fn viewlist(name_vec: &mut Vec<String>){
 }
 
 fn deletename(name_vec: &mut Vec<String>) {
+
     println!("Enter name: ");
     let mut names = String::new();
     io::stdin()
         .read_line(&mut names)
         .expect("Failed to read name");
-    let trimmed_name = names.trim().to_string();
+    let delname = names.trim().to_string();
 
-    if let Some(index) = name_vec.iter().position(|name| name == &trimmed_name) {
-        name_vec.remove(index);
-        println!("Name removed successfully.");
-    } else {
-        println!("Name not found in the list.");
+    let mut index = 0;
+
+    //Loop until false
+    while index < name_vec.len() {
+
+        let current_name = &name_vec[index]; //Store the name value in index value to the current_name
+    
+        if current_name == &delname {
+            name_vec.remove(index);
+            println!("Name removed successfully.");
+        } else {
+            index += 1; // Go to next index if name doesn't match
+        }
     }
+
+
 
 }
