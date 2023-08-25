@@ -14,7 +14,8 @@ fn main(){
         
         input = input.trim().to_string();
 
-        checknumber(&input);
+        checknumber(&input); //Checknum
+        
 
         if input == "q" { //if user enter 'q'
             println!("");
