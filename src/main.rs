@@ -101,6 +101,7 @@ fn viewlist(name_vec: &mut Vec<String>){
     println!("")
 }
 
+//Delete
 fn deletename(name_vec: &mut Vec<String>) {
 
     println!("Enter name: ");
@@ -112,7 +113,7 @@ fn deletename(name_vec: &mut Vec<String>) {
 
     let mut index = 0;
 
-    //Loop until false
+    //Loop until index is grater than vec length 
     while index < name_vec.len() {
 
         let current_name = &name_vec[index]; //Store the name value in index value to the current_name
@@ -124,7 +125,4 @@ fn deletename(name_vec: &mut Vec<String>) {
             index += 1; // Go to next index if name doesn't match
         }
     }
-
-
-
 }
