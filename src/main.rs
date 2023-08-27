@@ -1,128 +1,248 @@
 use std::io;
-
-fn main(){
-
-    //Declare a vecter
-    let mut name_vec = Vec::new();
-
-    loop{
-        println!("Enter 's' to Start | Enter 'q' to Quit");
-        let mut input = String::new();
-        io::stdin()
-            .read_line(&mut input)
-            .expect("Failed to read user input");
-        
-        input = input.trim().to_string();
-
-        checknumber(&input); //Checknum
+use std::collections::HashMap; //import HashMap Struct
 
 
-        if input == "q" { //if user enter 'q'
-            println!("");
-            println!("Exit....");
-            println!("");
-            break; //Stop running
-        }
-
-        addname(input, &mut name_vec); //Call add users function
-    }
-
-}
-
-//Check number
-fn checknumber(input: &String){
-    if let Ok(..) = input.trim().parse::<i32>() {
-         println!("");
-         println!("You enterd an Number");
-    }   
-}
-
-//Add users
-fn addname(input: String, name_vec: &mut Vec<String>){
+fn main() {
+    let mut users: HashMap<u32, String> = HashMap::new();
 
     loop {
-        match input.trim() {
-            "s" => {
-                println!("Enter name | Enter 'n' to stop add | Enter 'v' view name list | Enter 'd' to delete name");
-                let mut names = String::new();
-                io::stdin()
-                    .read_line(&mut names)
-                    .expect("Failed to read name");
-                names = names.trim().to_string();
+        println!("Enter 's' to Start || Enter 'q' to Quit");
+        let mut user_input = String::new(); //Get user input to start the program
+        io::stdin()
+            .read_line(&mut user_input)
+            .expect("Failed to read user input");
+        user_input = user_input.trim().to_lowercase();
 
-                println!("");
+        if user_input == "q" {
+            println!("");
+            println!("Exiting....");
+            println!("");
+            break;
+        }
+    
 
-                if names == "n" {
-                    println!("Exit from add");
+        loop {
+            match user_input.trim() {
+                "s"=> {
+                    println!("");
+                    //Menu
+                    println!("---------------Menu--------------");
+                    println!("1. Press '1' to Add User");
+                    println!("2. Press '2' to View Users");
+                    println!("4. Press '3' to Delete User by ID");
+                    println!("3. Press '4' to View User by ID");
+                    println!("6. Press '0' to Exit");
+                    println!("---------------------------------");
+                    println!("");
+    
+                    let mut menu_input = String::new(); //Get user inputs for match the menu
+                    io::stdin()
+                        .read_line(&mut menu_input)
+                        .expect("Failed to read user input");
+                
+    
+                    match menu_input.trim() {
+                        "1"=> {
+                            println!("");
+                            adduser(&mut users);
+                        },
+                        "2"=> {
+                            println!("");
+                            viewallusers(&mut users);
+                            println!("");
+                        },
+                        "3"=> {
+                            println!("");
+                            deleteuserbyid(&mut users);
+                            println!("");
+                        },
+                        "4"=> {
+                            println!("");
+                            viewuserbyid(&mut users);
+                            println!("");
+                        },
+                        "0"=> {
+                            println!("");
+                            println!("Exiting from menu....");
+                            println!("");
+                            break;
+                        },
+                        _=> {
+                            println!("");
+                            println!("Invalid input!!!");
+                            println!("Try again.");
+                            println!("");
+                            continue;
+                        },
+                    }
+    
+    
+                },
+                _=> {
+                    println!("");
+                    println!("Invalid Input");
                     println!("");
                     break;
                 }
-
-                if names == "v" {
-                    viewlist(name_vec);
-                    continue;
-                }
-
-                if names == "d" {
-                    deletename(name_vec);
-                    continue;
-                }
-
-                name_vec.push(names);
-                
             }
-            _=> {
-                println!("Invalid input");
+        }
+    }
+}
+
+fn adduser(users: &mut HashMap<u32, String>) {
+    
+    loop {
+        println!("");
+        println!("Enter user name | Press 'q' to exit from adding users");
+        let mut add_user = String::new();
+        io::stdin()
+            .read_line(&mut add_user)
+            .expect("Failed to read add user");
+        add_user = add_user.trim().to_lowercase();
+
+        match add_user.trim() {
+            "q" => {
+                println!("");
+                println!("Exiting from adding users....");
                 println!("");
                 break;
+            },
+            _ => {
+                let mut id = String::new();
+                println!("Enter {}'s ID :", add_user);
+                io::stdin().read_line(&mut id).expect("Not a valid string");
+                println!("");
+                
+                if let Ok(idnum) = id.trim().parse::<u32>() {
+                    if users.contains_key(&idnum) {
+                        println!("User ID already exists");
+                        println!("Enter New User ID");
+                        println!("");
+                        continue;
+                    } else {
+                        users.insert(idnum, add_user);
+                    }
+                    
+                } else {
+                    println!("");
+                    println!("!!!---Not a valid number for user ID---!!!");
+                    println!("");
+                    continue;
+                } 
+            }
+        }
+    } 
+}
+
+fn viewallusers(users: &mut HashMap<u32, String>) {
+    let mut i = 1;
+    println!("Welcome to View All Users");
+
+    if users.is_empty() {
+        println!("!!!!!!!!!!!!!!!!!!!!!!!");
+        println!("User List is Empty.");
+        println!("Add users to view list.");
+        println!("!!!!!!!!!!!!!!!!!!!!!!!");
+    } else {
+        println!("");
+        println!("--------------Users List-------------");
+        for (id, name) in users {
+            println!("{}. User ID: {} | User Name: {}", i, id, name);
+            i += 1;
+        }
+    }
+
+
+}
+
+fn deleteuserbyid(users: &mut HashMap<u32, String>) {
+
+    println!("");
+    println!("Welcome to Delete User By ID");
+    println!("");
+
+    loop {
+        let mut id = String::new();
+        println!("Enter user's ID | Press 'q' to Stop Deleting Users");
+        io::stdin()
+            .read_line(&mut id)
+            .expect("Failed to read ID.");
+        id = id.trim().to_lowercase();
+
+        println!("");
+
+        match id.trim() {
+            "q"=> {
+                println!("");
+                println!("Exiting from deleting users by ID....");
+                println!("");
+                break;
+            }, 
+            _ => {
+                if let Ok(uid) = id.trim().parse::<u32>() {
+                    if users.contains_key(&uid) {
+                        users.remove(&uid);
+                        println!("User Deleted Successfully");
+                        println!("");
+                    } else {
+                        println!("");
+                        println!("No user found in ID: {}", uid);
+                        println!("");
+                    }
+
+                }else {
+                    println!("");
+                    println!("!!!---Not a valid number for user ID---!!!");
+                    println!("");
+                }
             }
         }
     }
+    
 }
 
-//View all users
-fn viewlist(name_vec: &mut Vec<String>){
-
-    let mut j = 1;
-
-    if name_vec.is_empty(){
-        println!("Name list is empty.");
-    }
+fn viewuserbyid(users: &mut HashMap<u32, String>) {
 
     println!("");
-    println!("Name List");
-    println!("-----------");
+    println!("Welcome to View User By ID");
+    println!("");
 
-    for names in name_vec {
-        println!("{}. {}", j, names);
-        j += 1;
-    }
+    loop {
+        let mut id = String::new();
+        println!("Enter user's ID to View | Press 'q' to Stop viewing Users");
+        io::stdin()
+            .read_line(&mut id)
+            .expect("Failed to read ID.");
+        id = id.trim().to_lowercase();
 
-    println!("")
-}
+        println!("");
 
-//Delete
-fn deletename(name_vec: &mut Vec<String>) {
+        match id.trim() {
+            "q"=> {
+                println!("");
+                println!("Exiting from viewing users by ID....");
+                println!("");
+                break;
+            }, 
+            _ => {
+                if let Ok(uid) = id.trim().parse::<u32>() {
+                    if users.contains_key(&uid) {
+                        let name = users.get(&uid).unwrap();
+                        println!("ID: {} | Name: {}", uid, name);
+                        println!("");
+                    } else {
+                        println!("");
+                        println!("No user found in ID: {}", uid);
+                        println!("");
+                    }
 
-    println!("Enter name: ");
-    let mut names = String::new();
-    io::stdin()
-        .read_line(&mut names)
-        .expect("Failed to read name");
-    let delname = names.trim().to_string();
-
-    let mut index = 0;
-
-    //Loop until index is grater than vec length 
-    while index < name_vec.len() {
-
-        let current_name = &name_vec[index]; //Store the name value in index value to the current_name
-    
-        if current_name == &delname {
-            name_vec.remove(index);
-            println!("Name removed successfully.");
-        } else {
-            index += 1; // Go to next index if name doesn't match
+                }else {
+                    println!("");
+                    println!("!!!---Not a valid number for user ID---!!!");
+                    println!("");
+                }
+            }
         }
     }
+    
 }
