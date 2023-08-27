@@ -1,7 +1,6 @@
 use std::io;
 use std::collections::HashMap; //import HashMap Struct
 
-
 fn main() {
     let mut users: HashMap<u32, String> = HashMap::new();
 
@@ -11,8 +10,9 @@ fn main() {
         io::stdin()
             .read_line(&mut user_input)
             .expect("Failed to read user input");
-        user_input = user_input.trim().to_lowercase();
+        user_input = user_input.trim().to_lowercase(); //convert to lowercase 
 
+        //Check if user want's to exith
         if user_input == "q" {
             println!("");
             println!("Exiting....");
@@ -20,9 +20,10 @@ fn main() {
             break;
         }
     
-
+    
         loop {
             match user_input.trim() {
+                //if user want's to start program
                 "s"=> {
                     println!("");
                     //Menu
@@ -41,33 +42,34 @@ fn main() {
                         .expect("Failed to read user input");
                 
     
+                    //Match what user want's to do
                     match menu_input.trim() {
                         "1"=> {
                             println!("");
-                            adduser(&mut users);
+                            adduser(&mut users); //Add users
                         },
                         "2"=> {
                             println!("");
-                            viewallusers(&mut users);
+                            viewallusers(&mut users); //View all users
                             println!("");
                         },
                         "3"=> {
                             println!("");
-                            deleteuserbyid(&mut users);
+                            deleteuserbyid(&mut users); // Delete users by ID
                             println!("");
                         },
                         "4"=> {
                             println!("");
-                            viewuserbyid(&mut users);
+                            viewuserbyid(&mut users); // View users by ID
                             println!("");
                         },
-                        "0"=> {
+                        "0"=> { //Check if user wants to exit from menu
                             println!("");
                             println!("Exiting from menu....");
                             println!("");
                             break;
                         },
-                        _=> {
+                        _=> { //Check if user enter an invalid input
                             println!("");
                             println!("Invalid input!!!");
                             println!("Try again.");
@@ -78,7 +80,7 @@ fn main() {
     
     
                 },
-                _=> {
+                _=> { //if user inputs values apart from 's' of 'q'
                     println!("");
                     println!("Invalid Input");
                     println!("");
@@ -89,8 +91,11 @@ fn main() {
     }
 }
 
+
+//Add user 
 fn adduser(users: &mut HashMap<u32, String>) {
     
+    //Define a loop to get user inputs continueously
     loop {
         println!("");
         println!("Enter user name | Press 'q' to exit from adding users");
@@ -98,7 +103,7 @@ fn adduser(users: &mut HashMap<u32, String>) {
         io::stdin()
             .read_line(&mut add_user)
             .expect("Failed to read add user");
-        add_user = add_user.trim().to_lowercase();
+        add_user = add_user.trim().to_lowercase(); //
 
         match add_user.trim() {
             "q" => {
