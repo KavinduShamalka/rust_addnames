@@ -1,5 +1,5 @@
 use std::io;
-use std::collections::HashMap; //import HashMap Struct
+use std::collections::HashMap; //import HashMap collection
 
 fn main() {
     let mut users: HashMap<u32, String> = HashMap::new();
@@ -156,8 +156,9 @@ fn viewallusers(users: &mut HashMap<u32, String>) {
         let mut sorted_list: Vec<(&u32, &String)> = users.iter().collect(); //Sort HashMap and store it in vector
         sorted_list.sort_by_key(|a| a.0); //Sort HashMap by Key
 
+        //Itarate the sorted_list vector using for loop
         for (id, name) in sorted_list {
-            println!("{}. User ID: {} | User Name: {}", i, id, name);
+            println!("{}. User ID: {} | User Name: {}", i, id, name); //print the lis
             i += 1;
         }
     }
