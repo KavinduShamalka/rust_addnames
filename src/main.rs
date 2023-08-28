@@ -292,18 +292,24 @@ fn updateuserbyid(users: &mut HashMap<u32, String>) {
             _ => {
                 if let Ok(uid) = id.trim().parse::<u32>() { //Check user input is a number
                     if users.contains_key(&uid) { //Check user ID is in the HashMap
+
                         let name = users.get(&uid).unwrap(); //get user ID
                         println!("Current: ID: {} | Name: {}", uid, name);
+                        println!("");
+
                         println!("Enter new user name:");
-                        let mut new_name = String::new(); //New user name
+                        let mut new_name = String::new(); //get new user name
                         io::stdin()
                             .read_line(&mut new_name)
                             .expect("Failed to read new user name");
                         new_name = new_name.trim().to_string();//Convert new user name to string
-                        users.insert(uid, new_name); //Update user name in the HashMap
-                        let updated_name = users.get(&uid).unwrap(); //get user ID
-                        println!("Updated: ID: {} | Name to: {}", uid, updated_name);
                         println!("");
+
+                        users.insert(uid, new_name); //Update user name in the HashMap
+                        let updated_name = users.get(&uid).unwrap(); //get update name using user ID
+                        println!("Updated: ID: {} | Name to: {}", uid, updated_name);//print updated name
+                        println!("");
+
                     } else { //Else user not found in the HashMap
                         println!("");
                         println!("No user found in ID: {}", uid);
