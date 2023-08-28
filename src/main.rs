@@ -152,7 +152,11 @@ fn viewallusers(users: &mut HashMap<u32, String>) {
     } else { //View users
         println!("");
         println!("--------------Users List-------------");
-        for (id, name) in users {
+
+        let mut sorted_list: Vec<(&u32, &String)> = users.iter().collect(); //Sort HashMap and store it in vector
+        sorted_list.sort_by_key(|a| a.0); //Sort HashMap by Key
+
+        for (id, name) in sorted_list {
             println!("{}. User ID: {} | User Name: {}", i, id, name);
             i += 1;
         }
