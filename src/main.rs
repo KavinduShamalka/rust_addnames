@@ -30,8 +30,9 @@ fn main() {
                     println!("---------------Menu--------------");
                     println!("1. Press '1' to Add User");
                     println!("2. Press '2' to View Users");
-                    println!("4. Press '3' to Delete User by ID");
-                    println!("3. Press '4' to View User by ID");
+                    println!("3. Press '3' to Delete User by ID");
+                    println!("4. Press '4' to View User by ID");
+                    println!("5. Press '5' to Update User Name");
                     println!("6. Press '0' to Exit");
                     println!("---------------------------------");
                     println!("");
@@ -61,6 +62,11 @@ fn main() {
                         "4"=> {
                             println!("");
                             viewuserbyid(&mut users); // View users by ID
+                            println!("");
+                        },
+                        "5"=> {
+                            println!("");
+                            updateuserbyid(&mut users); // Update users by ID
                             println!("");
                         },
                         "0"=> { //Check if user wants to exit from menu
@@ -258,4 +264,58 @@ fn viewuserbyid(users: &mut HashMap<u32, String>) {
         }
     }
     
+}
+
+//Update user by ID 
+fn updateuserbyid(users: &mut HashMap<u32, String>) {
+    println!("");
+    println!("Welcome to Update User By ID");
+    println!("");
+
+    loop {
+        let mut id = String::new();
+        println!("Enter user's ID to Update User Name | Press 'q' to Stop updating Users");
+        io::stdin()
+            .read_line(&mut id)
+            .expect("Failed to read ID.");
+        id = id.trim().to_lowercase(); //Convert user input to the lowercase
+
+        println!("");
+
+        match id.trim() { //Match user inputs
+            "q"=> { //If user input is 'q' exit
+                println!("");
+                println!("Exiting from updating users by ID....");
+                println!("");
+                break;
+            }, 
+            _ => {
+                if let Ok(uid) = id.trim().parse::<u32>() { //Check user input is a number
+                    if users.contains_key(&uid) { //Check user ID is in the HashMap
+                        let name = users.get(&uid).unwrap(); //get user ID
+                        println!("Current: ID: {} | Name: {}", uid, name);
+                        println!("Enter new user name:");
+                        let mut new_name = String::new(); //New user name
+                        io::stdin()
+                            .read_line(&mut new_name)
+                            .expect("Failed to read new user name");
+                        new_name = new_name.trim().to_string();//Convert new user name to string
+                        users.insert(uid, new_name); //Update user name in the HashMap
+                        let updated_name = users.get(&uid).unwrap(); //get user ID
+                        println!("Updated: ID: {} | Name to: {}", uid, updated_name);
+                        println!("");
+                    } else { //Else user not found in the HashMap
+                        println!("");
+                        println!("No user found in ID: {}", uid);
+                        println!("");
+                    }
+
+                }else { //else user input is not a number
+                    println!("");
+                    println!("!!!---Not a valid number for user ID---!!!");
+                    println!("");
+                }
+            }
+        }
+    }
 }
