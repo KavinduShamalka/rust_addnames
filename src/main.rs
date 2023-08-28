@@ -103,28 +103,28 @@ fn adduser(users: &mut HashMap<u32, String>) {
         io::stdin()
             .read_line(&mut add_user)
             .expect("Failed to read add user");
-        add_user = add_user.trim().to_lowercase(); //
+        add_user = add_user.trim().to_lowercase(); //Convert user input to lowercase
 
-        match add_user.trim() {
-            "q" => {
+        match add_user.trim() { //Match user inputs
+            "q" => { //if 'q' exit
                 println!("");
                 println!("Exiting from adding users....");
                 println!("");
                 break;
-            },
+            }, //else add user ID
             _ => {
                 let mut id = String::new();
                 println!("Enter {}'s ID :", add_user);
                 io::stdin().read_line(&mut id).expect("Not a valid string");
                 println!("");
                 
-                if let Ok(idnum) = id.trim().parse::<u32>() {
-                    if users.contains_key(&idnum) {
+                if let Ok(idnum) = id.trim().parse::<u32>() { //Check user input is a number
+                    if users.contains_key(&idnum) { //Check user name is already in the HashMap
                         println!("User ID already exists");
                         println!("Enter New User ID");
                         println!("");
                         continue;
-                    } else {
+                    } else { //Else add user to the HahMap
                         users.insert(idnum, add_user);
                     }
                     
@@ -139,16 +139,17 @@ fn adduser(users: &mut HashMap<u32, String>) {
     } 
 }
 
+//View all users
 fn viewallusers(users: &mut HashMap<u32, String>) {
     let mut i = 1;
     println!("Welcome to View All Users");
 
-    if users.is_empty() {
+    if users.is_empty() { //Check user list is empty
         println!("!!!!!!!!!!!!!!!!!!!!!!!");
         println!("User List is Empty.");
         println!("Add users to view list.");
         println!("!!!!!!!!!!!!!!!!!!!!!!!");
-    } else {
+    } else { //View users
         println!("");
         println!("--------------Users List-------------");
         for (id, name) in users {
@@ -160,6 +161,7 @@ fn viewallusers(users: &mut HashMap<u32, String>) {
 
 }
 
+//Delete user
 fn deleteuserbyid(users: &mut HashMap<u32, String>) {
 
     println!("");
@@ -172,30 +174,30 @@ fn deleteuserbyid(users: &mut HashMap<u32, String>) {
         io::stdin()
             .read_line(&mut id)
             .expect("Failed to read ID.");
-        id = id.trim().to_lowercase();
+        id = id.trim().to_lowercase(); //Conert user input to lowercase
 
         println!("");
 
-        match id.trim() {
-            "q"=> {
+        match id.trim() { //Match user input
+            "q"=> { //id 'q' exiting from the deleting users
                 println!("");
                 println!("Exiting from deleting users by ID....");
                 println!("");
                 break;
             }, 
-            _ => {
-                if let Ok(uid) = id.trim().parse::<u32>() {
-                    if users.contains_key(&uid) {
-                        users.remove(&uid);
+            _ => {//else
+                if let Ok(uid) = id.trim().parse::<u32>() { //Check user ID is a number
+                    if users.contains_key(&uid) { //Check user is in the HashMap
+                        users.remove(&uid);//remove user
                         println!("User Deleted Successfully");
                         println!("");
-                    } else {
+                    } else { //else user not found in the HashMap
                         println!("");
                         println!("No user found in ID: {}", uid);
                         println!("");
                     }
 
-                }else {
+                }else { //esle not a valid number
                     println!("");
                     println!("!!!---Not a valid number for user ID---!!!");
                     println!("");
@@ -206,6 +208,7 @@ fn deleteuserbyid(users: &mut HashMap<u32, String>) {
     
 }
 
+//View user by ID
 fn viewuserbyid(users: &mut HashMap<u32, String>) {
 
     println!("");
@@ -218,30 +221,30 @@ fn viewuserbyid(users: &mut HashMap<u32, String>) {
         io::stdin()
             .read_line(&mut id)
             .expect("Failed to read ID.");
-        id = id.trim().to_lowercase();
+        id = id.trim().to_lowercase(); //Convert user input to the lowercase
 
         println!("");
 
-        match id.trim() {
-            "q"=> {
+        match id.trim() { //Match user inputs
+            "q"=> { //If user input is 'q' exit
                 println!("");
                 println!("Exiting from viewing users by ID....");
                 println!("");
                 break;
             }, 
             _ => {
-                if let Ok(uid) = id.trim().parse::<u32>() {
-                    if users.contains_key(&uid) {
-                        let name = users.get(&uid).unwrap();
-                        println!("ID: {} | Name: {}", uid, name);
+                if let Ok(uid) = id.trim().parse::<u32>() { //Check user input is a number
+                    if users.contains_key(&uid) { //Check user ID is in the HashMap
+                        let name = users.get(&uid).unwrap(); //get user ID
+                        println!("ID: {} | Name: {}", uid, name); 
                         println!("");
-                    } else {
+                    } else { //Else user not found in the HashMap
                         println!("");
                         println!("No user found in ID: {}", uid);
                         println!("");
                     }
 
-                }else {
+                }else { //else user input is not a number
                     println!("");
                     println!("!!!---Not a valid number for user ID---!!!");
                     println!("");
