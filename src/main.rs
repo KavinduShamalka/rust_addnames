@@ -22,7 +22,7 @@ fn main() {
     
     
         loop {
-            match user_input.trim() {
+            match user_input.trim() { //Match user inputs
                 //if user want's to start program
                 "s"=> {
                     println!("");
